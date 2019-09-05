@@ -51,7 +51,8 @@ def forward_prop(train_data,thetas):
     z3 = np.dot(thetas.get("Theta2"),a2)
     a3 = sigmoid(z3)
 
-    forward_params = { "Z2":z2,
+    forward_params = { "A1":train_data,
+                        "Z2":z2,
                         "A2":a2,
                        "Z3":z3,
                        "A3":a3
@@ -68,7 +69,7 @@ def backward_prop(forward_params,thetas,X,y):
     z2 = np.row_stack((np.ones(n), forward_params["Z2"]))
     delta2 = np.dot(np.transpose(thetas.get("Theta2")),delta3) * sigmoid_gradient(z2)
 
-    
+    # Calculating capital delta 1 and capital delta 2
 
     backward_params= { "D3": delta3,
                         "D2": delta2
@@ -157,4 +158,17 @@ def model_nn(train_data,test_data,layers):
         forward_parameters = forward_prop(train_data[0][i:i+1,:],initial_thetas)
 
         backward_parameters = backward_prop(forward_parameters,initial_thetas,train_data[0][i:i+1,:],train_data[1][i:i+1,:])
-        break
+
+        # Initialising capital_delta2
+        capital_delta1 = np.zeros(initial_thetas["Theta1"].shape)
+        capital_delta2 = np.zeros(initial_thetas["Theta2"].shape)
+
+        # Calculating capital deltas
+        capital_delta1 = capital_delta1 + np.dot(backward_parameters["D2"][1:,:],forward_parameters["A1"])
+        capital_delta2 = capital_delta2 + np.dot(backward_parameters["D3"],forward_parameters["A2"].T)
+
+    # Calculating unregularized gradient
+    unreg_gradient_theta_1 = capital_delta1/m
+    unreg_gradient_theta_2 = capital_delta2/m
+
+    
