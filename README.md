@@ -1,4 +1,4 @@
-# digit-classification
+# numeric-digit-classification
 This code helps you classify different digits using three layered Neural Network
 
 Data used for training is grey-scale images of pixels 20 * 20
