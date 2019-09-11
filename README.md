@@ -2,6 +2,7 @@
 This code helps you classify different digits using three layered Neural Network
 
 Data used for training is grey-scale images of pixels 20 * 20
+
 Accuracy achieved  - 99.12%
 
 Neural Network Model for forward propagation -
