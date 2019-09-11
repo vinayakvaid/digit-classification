@@ -5,6 +5,7 @@ import classifier_nn
 from tensorflow.examples.tutorials.mnist import input_data
 import pandas as pd
 from scipy.io import loadmat
+from sklearn.preprocessing import OneHotEncoder
 
 def main():
     """
@@ -13,9 +14,11 @@ def main():
     """
 
     data = loadmat('E:/machine-learning-coursera/machine-learning-ex4/ex4/ex4data1.mat')
-    y = data["y"]
     X = data["X"]
-    y_matrix = pd.get_dummies(y.ravel()).as_matrix()
+    y = data["y"]
+    #y_matrix = pd.get_dummies(y.ravel()).as_matrix()
+    encoder = OneHotEncoder(sparse=False)
+    y_matrix = encoder.fit_transform(y)
     train_data= (X,y_matrix)
     test_data = ()
 
@@ -53,7 +56,7 @@ def main():
 
     # Calling neural network model
     layers = [400,25,10]
-    classifier_nn.model_nn(train_data,test_data,layers)
+    classifier_nn.model_nn(train_data,test_data,layers,y)
 
 main()
 
