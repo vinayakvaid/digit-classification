@@ -19,4 +19,5 @@ For backward propagation
 
 Future scope -
 
-Implementation using MNIST data set
+-Training using MNIST data set
+-Computer vision implementation
