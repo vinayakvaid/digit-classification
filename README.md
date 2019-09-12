@@ -20,8 +20,4 @@ For backward propagation
 Future scope -
 
 - Training using MNIST data set
-
 - Computer vision implementation
-- George Washington
-- John Adams
-- Thomas Jefferson
