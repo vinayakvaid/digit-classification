@@ -3,7 +3,7 @@ This code helps you classify single numeric digits using three layered Neural Ne
 
 Data used for training is grey-scale images of pixels 20 * 20
 
-Accuracy achieved  - 99.12%
+Accuracy achieved  - ~98%
 
 Neural Network Model for forward propagation -
 
