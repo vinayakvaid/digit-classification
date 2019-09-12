@@ -7,7 +7,7 @@ Accuracy achieved  - ~98%
 
 Training data images can be visualized as below-
 
-![]()
+![](https://github.com/vinayakvaid/digit-classification/blob/master/Training%20data.JPG)
 
 Neural Network Model for forward propagation -
 
