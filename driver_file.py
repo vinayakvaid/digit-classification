@@ -13,10 +13,9 @@ def main():
     :return:
     """
 
-    data = loadmat('E:/machine-learning-coursera/machine-learning-ex4/ex4/ex4data1.mat')
+    data = loadmat('./20by20 Data/ex4data1.mat')
     X = data["X"]
     y = data["y"]
-    #y_matrix = pd.get_dummies(y.ravel()).as_matrix()
     encoder = OneHotEncoder(sparse=False)
     y_matrix = encoder.fit_transform(y)
     train_data= (X,y_matrix)
@@ -34,20 +33,22 @@ def main():
     # print("Number of test examples : " + str(mnist.test.num_examples))
     # print("Number of cross validation examples : " + str(mnist.validation.num_examples))
     # print("Number of pixel values in a single example : " + str(mnist.train.images[1].shape[0])),print()
-    #
-    # # Visualizing data
-    # # for i in range(1,6):
-    # #     plt.figure(num=i)
-    # #     plt.imshow(mnist.train.images[random.randint(1,int(mnist.train.num_examples))].reshape(28,28),cmap="gist_gray")
-    # # plt.show()
-    #
+
+    #Visualizing data
+    for i in range(1,6):
+        plt.figure(num=i)
+    #     #plt.imshow(mnist.train.images[random.randint(1,int(mnist.train.num_examples))].reshape(28,28),cmap="gist_gray")
+        plt.imshow(np.matrix(X[random.randint(1, 5000)]).reshape(20, 20),
+                  cmap="gist_gray")
+    plt.show()
+
     # Specifying X and y matrices for train and test data
     # train_data = mnist.train.next_batch(10000)
     X_train = train_data[0]
     y_train = train_data[1]
     print("Shape of X_train : " + str(X_train.shape))
     print("Shape of y_train : " + str(y_train.shape)),print()
-    #
+
     # test_data = mnist.test.next_batch(1000)
     # X_test = test_data[0]
     # y_test = test_data[1]

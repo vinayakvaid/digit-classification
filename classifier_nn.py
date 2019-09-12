@@ -62,12 +62,11 @@ def backward_prop(params, input_size, hidden_size, num_labels,X, y, lambda_reg):
     X_train = np.matrix(X)
     y = np.matrix(y)
 
-
-    # reshape the parameter array into parameter matrices for each layer
+    # Reshape the parameter array into parameter matrices for each layer
     theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + 1)], (hidden_size, (input_size + 1))))
     theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + 1):], (num_labels, (hidden_size + 1))))
 
-    # run the feed-forward pass
+    # Run the feed-forward pass
     thetas = {"Theta1": theta1, "Theta2": theta2}
     forward_params = forward_prop(X_train,thetas)
 
@@ -80,6 +79,7 @@ def backward_prop(params, input_size, hidden_size, num_labels,X, y, lambda_reg):
     # Calculating cost
     J = compute_cost(thetas,X,y)
     J = add_regularizarion_cost(X,thetas,J,lambda_reg)
+    print("Cost is " + str(J))
 
     # Starting logic for back propagation algorithm
 
@@ -122,10 +122,6 @@ def backward_prop(params, input_size, hidden_size, num_labels,X, y, lambda_reg):
 
     grad = np.concatenate((np.ravel(capital_delta1), np.ravel(capital_delta2)))
 
-    # backward_params= { "J":J,
-    #                    "delta1":unreg_gradient_theta_1,
-    #                    "delta2":unreg_gradient_theta_2
-    #                 }
     return J, grad
 
 #def compute_cost(h,train_data):
@@ -190,19 +186,16 @@ def model_nn(train_data,test_data,layers,y_single_column):
     output_labels = layers[2]
     m = int(X_train.shape[0])
 
-    # bias_input_layer = np.ones(m)
-    # train_data[0] = np.column_stack((bias_input_layer, train_data[0]))
-
     print("Units in input layer : " + str(input_layer_size))
     print("Units in hidden layer : " + str(hidden_layer_size))
     print("Units in output layer : " + str(output_labels)),print()
 
-    weights = loadmat("E:/machine-learning-coursera/machine-learning-ex4/ex4/ex4weights.mat")
-    theta_1 = weights['Theta1']
-    theta_2 = weights['Theta2']
-    print("Shape of pre-defined Theta 1 : " + str(theta_1.shape))
-    print("Shape of pre-defined Theta 2 : " + str(theta_2.shape)), print()
-    predefined_thetas = {"Theta1": theta_1, "Theta2": theta_2}
+    # weights = loadmat("./20by20 Data/ex4weights.mat")
+    # theta_1 = weights['Theta1']
+    # theta_2 = weights['Theta2']
+    # print("Shape of pre-defined Theta 1 : " + str(theta_1.shape))
+    # print("Shape of pre-defined Theta 2 : " + str(theta_2.shape)), print()
+    # predefined_thetas = {"Theta1": theta_1, "Theta2": theta_2}
 
     # J = compute_cost(predefined_thetas,X_train,y_train)
 
@@ -218,20 +211,14 @@ def model_nn(train_data,test_data,layers,y_single_column):
     # print("Shape of initial Theta 1 : " + str(initial_theta_1.shape))
     # print("Shape of initial Theta 2 : " + str(initial_theta_2.shape))
 
-    params = params = (np.random.random(size=hidden_layer_size * (input_layer_size + 1) + output_labels * (hidden_layer_size + 1)) - 0.5) * 0.25
+    params = (np.random.random(size=hidden_layer_size * (input_layer_size + 1) + output_labels * (hidden_layer_size + 1)) - 0.5) * 0.25
 
-
-    #initial_thetas = {"Theta1": theta1, "Theta2": theta2}
-    #forward_parameters = forward_prop(X_train,initial_thetas)
+    # initial_thetas = {"Theta1": theta1, "Theta2": theta2}
+    # forward_parameters = forward_prop(X_train,initial_thetas)
 
     J,grad = backward_prop(params,input_layer_size,hidden_layer_size,output_labels,X_train,y_train,lambda_reg = 1)
-    print(J)
 
     learning_rate = 1
-    params = params = (np.random.random(size=hidden_layer_size * (input_layer_size + 1) + output_labels * (hidden_layer_size + 1)) - 0.5) * 0.25
-    # fmin = minimize(fun=backward_prop, x0=params, args=(input_layer_size, hidden_layer_size, output_labels,
-    #                         X_train, y_train, learning_rate),
-    #                 method='TNC', jac=True, options={'maxiter': 250})
     fmin = minimize(fun=backward_prop, x0=params, args=(input_layer_size,hidden_layer_size,output_labels,X_train,y_train,learning_rate),
                     method='TNC', jac=True, options={'maxiter': 250})
     print(fmin)
@@ -248,35 +235,14 @@ def model_nn(train_data,test_data,layers,y_single_column):
     # Computing accuracy of our network
     correct = [1 if a == b else 0 for (a, b) in zip(y_pred, y_single_column)]
     accuracy = (sum(map(int, correct)) / float(len(correct)))
-    print('accuracy = {0}%'.format(accuracy * 100))
+    print('Training set accuracy of model is {0} %'.format(accuracy * 100))
 
-    y_pred_df = pd.DataFrame(y_pred)
+    y_pred_df = pd.DataFrame(y_pred,columns={})
     y_pred_df.to_csv("y_pred")
 
     y_single_column_df = pd.DataFrame(y_single_column)
     y_single_column_df.to_csv("single columns")
 
-
-    # print(J)
-    # print(grad.shape)
-    # for i in range(0,m):
-    #
-    #     forward_parameters = forward_prop(train_data[0][i:i+1,:],initial_thetas)
-    #
-    #     backward_parameters = backward_prop(forward_parameters,initial_thetas,train_data[0][i:i+1,:],train_data[1][i:i+1,:])
-    #
-    #     # Initialising capital_delta2
-    #     capital_delta1 = np.zeros(initial_thetas["Theta1"].shape)
-    #     capital_delta2 = np.zeros(initial_thetas["Theta2"].shape)
-    #
-    #     # Calculating capital deltas
-    #     capital_delta1 = capital_delta1 + np.dot(backward_parameters["D2"][1:,:],forward_parameters["A1"])
-    #     capital_delta2 = capital_delta2 + np.dot(backward_parameters["D3"],forward_parameters["A2"].T)
-    #
-    # # Calculating unregularized gradient
-    # unreg_gradient_theta_1 = capital_delta1/m
-    # unreg_gradient_theta_2 = capital_delta2/m
-    #
     # # Adding regularization term to the gradients
     # lambda1 = 3
     # for i in range(unreg_gradient_theta_1.shape[0]):
