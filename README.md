@@ -5,14 +5,19 @@ Data used for training is grey-scale images of pixels 20 * 20
 
 Accuracy achieved  - ~98%
 
+Training data images can be visualized as below-
+
+![](https://github.com/vinayakvaid/digit-classification/blob/master/Training%20data.JPG)
+
 Neural Network Model for forward propagation -
 
-![](https://github.com/vinayakvaid/digit-classification/blob/master/Forward%20Propagation.JPG)
+![Feed Forward Propagation](https://github.com/vinayakvaid/digit-classification/blob/master/Forward%20Propagation.JPG)
 
 For backward propagation
 
-![](https://github.com/vinayakvaid/digit-classification/blob/master/Backward%20Propagation.JPG)
+![Back Propagation](https://github.com/vinayakvaid/digit-classification/blob/master/Backward%20Propagation.JPG)
 
 Future scope -
 
-Implementation using MNIST data set
+- Training using MNIST data set
+- Computer vision implementation
